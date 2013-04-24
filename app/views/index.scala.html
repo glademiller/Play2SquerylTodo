@@ -1,0 +1,52 @@
+@(tasks: List[Task], taskForm: Form[Task])
+@import helper._
+@import helper.twitterBootstrap._
+
+@main("Todo list") {
+    <legend>Tasks</legend>
+<div class="row-fluid">
+    <div class="span4">
+
+        <h5>Add a new Task</h5>
+        @form(routes.Application.newTask) {
+            
+            @inputText(taskForm("label"), args = '_label -> "Label") 
+            <button class='btn btn-primary' type='submit'>Create</button>
+            
+            
+        }      
+    </div>
+    <div class="span8">
+        <table class='table table-striped'>
+        <thead>
+            <tr>
+
+            <th>Label</th>
+            <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        @tasks.map { task => 
+            <tr>
+                <td>@task.label</td>
+                <td>
+                <form action="@routes.Application.deleteTask(task.id)" method="POST" style="display: inline">
+                    <button class='btn btn-danger' type='submit'><i class='icon-white icon-trash'></i> Delete</button>
+                </form>
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+            <tr>
+                <th></th>
+                <th>@tasks.size task(s)</th>
+            </tr>
+        </tfoot>
+        </table>    
+    </div>
+</div>
+
+
+  
+}
